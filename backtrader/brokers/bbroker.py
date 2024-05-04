@@ -924,6 +924,30 @@ class BackBroker(bt.BrokerBase):
             elif plimit <= phigh:
                 # day high above req price ... match limit price
                 self._execute(order, ago=0, price=plimit)
+    def _try_exec_specify(self, order, popen, phigh, plow, plimit):
+        self._execute(order, ago=0, price=plimit)
+        # if order.isbuy():
+        #     if plimit >= popen:
+        #         # open smaller/equal than requested - buy cheaper
+        #         pmax = min(phigh, plimit)
+        #         p = self._slip_up(pmax, popen, doslip=self.p.slip_open,
+        #                           lim=True)
+        #         self._execute(order, ago=0, price=p)
+        #     elif plimit >= plow:
+        #         # day low below req price ... match limit price
+        #         self._execute(order, ago=0, price=plimit)
+        #
+        # else:  # Sell
+        #     if plimit <= popen:
+        #         # open greater/equal than requested - sell more expensive
+        #         pmin = max(plow, plimit)
+        #         p = self._slip_down(plimit, popen, doslip=self.p.slip_open,
+        #                             lim=True)
+        #         self._execute(order, ago=0, price=p)
+        #     elif plimit <= phigh:
+        #         # day high above req price ... match limit price
+        #         self._execute(order, ago=0, price=plimit)
+
 
     def _try_exec_stop(self, order, popen, phigh, plow, pcreated, pclose):
         if order.isbuy():
@@ -1071,6 +1095,9 @@ class BackBroker(bt.BrokerBase):
 
         elif order.exectype == Order.Limit:
             self._try_exec_limit(order, popen, phigh, plow, pcreated)
+
+        elif order.exectype == Order.Specify:
+            self._try_exec_specify(order, popen, phigh, plow, pcreated)
 
         elif (order.triggered and
               order.exectype in [Order.StopLimit, Order.StopTrailLimit]):

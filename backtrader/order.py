@@ -239,9 +239,9 @@ class OrderBase(with_metaclass(MetaParams, object)):
     # Volume Restrictions for orders
     V_None = range(1)
 
-    (Market, Close, Limit, Stop, StopLimit, StopTrail, StopTrailLimit,
-     Historical) = range(8)
-    ExecTypes = ['Market', 'Close', 'Limit', 'Stop', 'StopLimit', 'StopTrail',
+    (Market, Close, Limit, Specify, Stop, StopLimit, StopTrail, StopTrailLimit,
+     Historical) = range(9)
+    ExecTypes = ['Market', 'Close', 'Limit','Specify', 'Stop', 'StopLimit', 'StopTrail',
                  'StopTrailLimit', 'Historical']
 
     OrdTypes = ['Buy', 'Sell']
